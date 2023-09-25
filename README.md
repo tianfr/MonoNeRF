@@ -1,5 +1,5 @@
 # MonoNeRF
-This is the official implementation of our paper "MonoNeRF: Learning a Generalizable Dynamic Radiance Field from Monocular Videos".
+This is the official implementation of our ICCV 2023 paper "MonoNeRF: Learning a Generalizable Dynamic Radiance Field from Monocular Videos".
 
 [![arXiv](https://img.shields.io/badge/arXiv-2212.13056-b31b1b.svg)](https://arxiv.org/abs/2212.13056)
 
@@ -17,7 +17,7 @@ In this paper, we target at the problem of learning a generalizable dynamic radi
 
 
 ## Environment Setup
-The code is test with
+The code is tested with
 * Ubuntu 16.04
 * Anaconda 3
 * Python 3.8.12
@@ -57,7 +57,6 @@ Finally, clone the MonoNeRF project:
 ```
 git clone https://github.com/tianfr/MonoNeRF.git
 cd mononerf
-export PYTHONPATH=.
 ```
 ## Dynamic Scene Dataset
 The [Dynamic Scene Dataset](https://www-users.cse.umn.edu/~jsyoon/dynamic_synth/) is used to
@@ -76,6 +75,10 @@ wget -P checkpoints/ https://download.openmmlab.com/mmaction/recognition/slowonl
 
 
 ## Training
+### Environment Initialization
+```
+export PYTHONPATH=.
+```
 All the training procedure is conducted on **GPU 0** by default.
 ### Multiple scenes
 You can train a model from scratch by running:
@@ -103,13 +106,14 @@ This work is licensed under MIT License. See [LICENSE](LICENSE) for details.
 If you find this code useful for your research, please consider citing the following paper:
 ```
 @inproceedings{23iccv/tian_mononerf,
-    author    = {Fengrui, Tian and Shaoyi, Du and Yueqi, Duan},
+    author    = {Tian, Fengrui and Du, Shaoyi and Duan, Yueqi},
     title     = {{MonoNeRF}: Learning a Generalizable Dynamic Radiance Field from Monocular Videos},
-    booktitle = {Proceedings of the IEEE International Conference on Computer Vision},
+    booktitle = {Proceedings of the International Conference on Computer Vision (ICCV)},
+    month     = {October},
     year      = {2023}
 }
 ```
 # Acknowledgement
-Our code is build upon [NeRF](https://github.com/bmild/nerf), [NeRF-pytorch](https://github.com/yenchenlin/nerf-pytorch), [NSFF](https://github.com/zl548/Neural-Scene-Flow-Fields), [DynamicNeRF](https://github.com/gaochen315/DynamicNeRF), [pixelNeRF](https://github.com/sxyu/pixel-nerf), and [Occupancy Flow](https://github.com/autonomousvision/occupancy_flow). Our flow prediction code is modified from [RAFT](https://github.com/princeton-vl/RAFT). Our depth prediction code is modified from [MiDaS](https://github.com/isl-org/MiDaS).
+Our code is built upon [NeRF](https://github.com/bmild/nerf), [NeRF-pytorch](https://github.com/yenchenlin/nerf-pytorch), [NSFF](https://github.com/zl548/Neural-Scene-Flow-Fields), [DynamicNeRF](https://github.com/gaochen315/DynamicNeRF), [pixelNeRF](https://github.com/sxyu/pixel-nerf), and [Occupancy Flow](https://github.com/autonomousvision/occupancy_flow). Our flow prediction code is modified from [RAFT](https://github.com/princeton-vl/RAFT). Our depth prediction code is modified from [MiDaS](https://github.com/isl-org/MiDaS).
 # Contact
 If you have any questions, please feel free to contact [Fengrui Tian](https://tianfr.github.io).
