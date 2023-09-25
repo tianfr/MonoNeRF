@@ -1,0 +1,29 @@
+__pycache__/
+.vscode
+.history
+
+# Dataset files
+data
+
+# checkpoints and logs
+logs
+logs_new
+checkpoints
+model_zoo
+
+phoenix-slurm*
+batchscript*
+
+mmaction2
+
+*.zip
+*.pt
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.pth
+
+
+test/*
+run_sh/*.out
