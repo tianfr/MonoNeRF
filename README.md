@@ -106,9 +106,10 @@ This work is licensed under MIT License. See [LICENSE](LICENSE) for details.
 If you find this code useful for your research, please consider citing the following paper:
 ```
 @inproceedings{23iccv/tian_mononerf,
-    author    = {Fengrui, Tian and Shaoyi, Du and Yueqi, Duan},
+    author    = {Tian, Fengrui and Du, Shaoyi and Duan, Yueqi},
     title     = {{MonoNeRF}: Learning a Generalizable Dynamic Radiance Field from Monocular Videos},
-    booktitle = {Proceedings of the IEEE International Conference on Computer Vision},
+    booktitle = {Proceedings of the International Conference on Computer Vision (ICCV)},
+    month     = {October},
     year      = {2023}
 }
 ```
