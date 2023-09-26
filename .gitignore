@@ -3,18 +3,18 @@ __pycache__/
 .history
 
 # Dataset files
-data
+/data
 
 # checkpoints and logs
-logs
-logs_new
-checkpoints
-model_zoo
+/logs
+/logs_new
+/checkpoints
+/model_zoo
 
 phoenix-slurm*
 batchscript*
 
-mmaction2
+/mmaction2
 
 *.zip
 *.pt
@@ -25,5 +25,5 @@ mmaction2
 *.pth
 
 
-test/*
-run_sh/*.out
+/test/*
+/run_sh/*.out
