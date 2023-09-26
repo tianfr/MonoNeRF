@@ -1,12 +1,5 @@
-import time
-
-start = time.time()
 import glob
-import io
 import os
-# from petrel_client.client import Client
-import time
-from os.path import splitext
 
 import cv2
 import imageio
@@ -15,15 +8,6 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from matplotlib.pyplot import grid
-
-# from util import get_image_to_tensor_balanced, get_mask_to_tensor
-
-
-if __name__ == '__main__':
-    print(time.time() - start)
-
-import copy
-
 from mmaction.datasets.pipelines import Compose
 from mmcv import Config
 
