@@ -60,12 +60,13 @@ cd mononerf
 ```
 ## Dynamic Scene Dataset
 The [Dynamic Scene Dataset](https://www-users.cse.umn.edu/~jsyoon/dynamic_synth/) is used to
-quantitatively evaluate our method. Please refer to the official dataset to download the data. Here we present the data link from [DynamicNeRF](https://github.com/gaochen315/DynamicNeRF).
+quantitatively evaluate our method. Please refer to the official dataset to download the data. Here we present the data link from [DynamicNeRF](https://github.com/gaochen315/DynamicNeRF) to download the training dataset.
 ```
 wget --no-check-certificate https://filebox.ece.vt.edu/~chengao/free-view-video/data.zip
 unzip data.zip
 rm data.zip
 ```
+We also provide the dataset link on [Google Drive](https://drive.google.com/file/d/1_8PWQ6Ztw3Y-iyKRRJmKtGC2oFa2rDMS/view?usp=drive_link) that contains both training and evaluation data and evaluation code on `train/evaluation.py`.
 ## Backbone Checkpoints
 Download the [SlowOnly](https://arxiv.org/abs/1812.03982) pretrained model from [MMAction2](https://mmaction2.readthedocs.io/en/latest/get_started/installation.html) website.
 ```
@@ -100,6 +101,109 @@ Test the generalization ability on unseen scenes:
 chmod +x generalization_from_Balloon1_Balloon2.sh
 ./generalization_from_Balloon1_Balloon2.sh 0 2000
 ```
+
+## Train a model on your sequence (from [DynNeRF](https://github.com/gaochen315/DynamicNeRF))
+0. Set some paths
+
+```
+ROOT_PATH=/path/to/the/MonoNeRF/folder
+DATASET_NAME=name_of_the_video_without_extension
+DATASET_PATH=$ROOT_PATH/data/$DATASET_NAME
+```
+and install [COLMAP](https://colmap.github.io/install.html) manually. Then download MiDaS and RAFT weights
+```
+cd $ROOT_PATH
+wget --no-check-certificate https://filebox.ece.vt.edu/~chengao/free-view-video/weights.zip
+unzip weights.zip
+rm weights.zip
+```
+1. Prepare training images and background masks from a video.
+
+```
+cd $ROOT_PATH/train/utils
+python generate_data.py --videopath /path/to/the/video
+```
+
+2. Use COLMAP to obtain camera poses.
+
+```
+colmap feature_extractor \
+--database_path $DATASET_PATH/database.db \
+--image_path $DATASET_PATH/images_colmap \
+--ImageReader.mask_path $DATASET_PATH/background_mask \
+--ImageReader.single_camera 1
+
+colmap exhaustive_matcher \
+--database_path $DATASET_PATH/database.db
+
+mkdir $DATASET_PATH/sparse
+colmap mapper \
+    --database_path $DATASET_PATH/database.db \
+    --image_path $DATASET_PATH/images_colmap \
+    --output_path $DATASET_PATH/sparse \
+    --Mapper.num_threads 16 \
+    --Mapper.init_min_tri_angle 4 \
+    --Mapper.multiple_models 0 \
+    --Mapper.extract_colors 0
+```
+
+3. Save camera poses into the format that NeRF reads.
+
+```
+cd $ROOT_PATH/train/utils
+python generate_pose.py --dataset_path $DATASET_PATH
+```
+
+4. Estimate monocular depth.
+
+```
+cd $ROOT_PATH/train/utils
+python generate_depth.py --dataset_path $DATASET_PATH --model $ROOT_PATH/weights/midas_v21-f6b98070.pt
+```
+
+5. Predict optical flows.
+
+```
+cd $ROOT_PATH/train/utils
+python generate_flow.py --dataset_path $DATASET_PATH --model $ROOT_PATH/weights/raft-things.pth
+```
+
+6. Obtain motion mask (code adapted from NSFF).
+
+```
+cd $ROOT_PATH/train/utils
+python generate_motion_mask.py --dataset_path $DATASET_PATH
+```
+
+1. Train a model. Please change `expname` and `dataset_file_lists` in `mononerf_conf/exp/your_own_scene/your_own_scene.conf`.
+
+```
+cd $ROOT_PATH/
+chmod +x your_own_scene.sh
+./your_own_scene.sh 0
+```
+
+Explanation of each parameter:
+
+- `expname`: experiment name
+- `basedir`: where to store ckpts and logs
+- `datadir`: input data directory
+- `factor`: downsample factor for the input images
+- `N_rand`: number of random rays per gradient step
+- `N_samples`: number of samples per ray
+- `netwidth`: channels per layer
+- `use_viewdirs`: whether enable view-dependency for StaticNeRF
+- `use_viewdirsDyn`: whether enable view-dependency for DynamicNeRF
+- `raw_noise_std`: std dev of noise added to regularize sigma_a output
+- `no_ndc`: do not use normalized device coordinates
+- `lindisp`: sampling linearly in disparity rather than depth
+- `i_video`: frequency of novel view-time synthesis video saving
+- `i_testset`: frequency of testset video saving
+- `N_iters`: number of training iterations
+- `i_img`: frequency of tensorboard image logging
+- `DyNeRF_blending`: whether use DynamicNeRF to predict blending weight
+- `pretrain`: whether pre-train StaticNeRF
+
 # License
 This work is licensed under MIT License. See [LICENSE](LICENSE) for details.
 
