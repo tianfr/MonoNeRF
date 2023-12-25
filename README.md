@@ -175,7 +175,7 @@ cd $ROOT_PATH/train/utils
 python generate_motion_mask.py --dataset_path $DATASET_PATH
 ```
 
-1. Train a model. Please change `expname` and `dataset_file_lists` in `mononerf_conf/exp/your_own_scene/your_own_scene.conf`.
+7. Train a model. Please change `expname` and `dataset_file_lists` in `mononerf_conf/exp/your_own_scene/your_own_scene.conf`.
 
 ```
 cd $ROOT_PATH/
@@ -183,26 +183,6 @@ chmod +x your_own_scene.sh
 ./your_own_scene.sh 0
 ```
 
-Explanation of each parameter:
-
-- `expname`: experiment name
-- `basedir`: where to store ckpts and logs
-- `datadir`: input data directory
-- `factor`: downsample factor for the input images
-- `N_rand`: number of random rays per gradient step
-- `N_samples`: number of samples per ray
-- `netwidth`: channels per layer
-- `use_viewdirs`: whether enable view-dependency for StaticNeRF
-- `use_viewdirsDyn`: whether enable view-dependency for DynamicNeRF
-- `raw_noise_std`: std dev of noise added to regularize sigma_a output
-- `no_ndc`: do not use normalized device coordinates
-- `lindisp`: sampling linearly in disparity rather than depth
-- `i_video`: frequency of novel view-time synthesis video saving
-- `i_testset`: frequency of testset video saving
-- `N_iters`: number of training iterations
-- `i_img`: frequency of tensorboard image logging
-- `DyNeRF_blending`: whether use DynamicNeRF to predict blending weight
-- `pretrain`: whether pre-train StaticNeRF
 
 # License
 This work is licensed under MIT License. See [LICENSE](LICENSE) for details.
