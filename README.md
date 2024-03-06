@@ -56,7 +56,7 @@ pip install tqdm Pillow==9.1.1
 Finally, clone the MonoNeRF project:
 ```
 git clone https://github.com/tianfr/MonoNeRF.git
-cd mononerf
+cd MonoNeRF
 ```
 ## Dynamic Scene Dataset
 The [Dynamic Scene Dataset](https://www-users.cse.umn.edu/~jsyoon/dynamic_synth/) is used to
